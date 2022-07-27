@@ -1,6 +1,6 @@
 #include "raylib.h"
 
-struct Ball
+struct Ball //this allows us to hold variables and methods
 {
 	float x, y;
 	float speedX, speedY;
@@ -8,7 +8,7 @@ struct Ball
 
 	void Draw()
 	{
-		DrawCircle((int)x, (int)y, radius, WHITE);
+		DrawCircle((int)x, (int)y, radius, RED); // set the color as created the circle
 	}
 };
 
@@ -20,46 +20,46 @@ struct Paddle
 
 	Rectangle GetRect()
 	{
-		return Rectangle{ x - width / 2, y - height / 2, 10, 100 };
+		return Rectangle{ x - width / 2, y - height / 2, 10, 100 }; //created the paddle
 	}
 
 	void Draw()
 	{
-		DrawRectangleRec(GetRect(), WHITE);
+		DrawRectangleRec(GetRect(), GREEN); //calls the rectangle 
 	}
 };
 
 int main()
 {
-	InitWindow(800, 600, "Pong");
-	SetWindowState(FLAG_VSYNC_HINT);
+	InitWindow(800, 600, "Pong"); //this creates the window
+	SetWindowState(FLAG_VSYNC_HINT); //flag to update as fsat as your local machine
 
 	Ball ball;
 	ball.x = GetScreenWidth() / 2.0f;
 	ball.y = GetScreenHeight() / 2.0f;
 	ball.radius = 5;
-	ball.speedX = 300;
-	ball.speedY = 300;
+	ball.speedX = 250;
+	ball.speedY = 250;
 
 	Paddle leftPaddle;
 	leftPaddle.x = 50;
 	leftPaddle.y = GetScreenHeight() / 2;
 	leftPaddle.width = 10;
 	leftPaddle.height = 100;
-	leftPaddle.speed = 500;
+	leftPaddle.speed = 600;
 
 	Paddle rightPaddle;
 	rightPaddle.x = GetScreenWidth() - 50;
 	rightPaddle.y = GetScreenHeight() / 2;
 	rightPaddle.width = 10;
 	rightPaddle.height = 100;
-	rightPaddle.speed = 500;
+	rightPaddle.speed = 600;
 
 	const char* winnerText = nullptr;
 
-	while (!WindowShouldClose())
+	while (!WindowShouldClose()) // this is while we still have the window open 
 	{
-		ball.x += ball.speedX * GetFrameTime();
+		ball.x += ball.speedX * GetFrameTime(); //helps makeup for FPS
 		ball.y += ball.speedY * GetFrameTime();
 
 		if (ball.y < 0)
@@ -126,8 +126,8 @@ int main()
 		}
 
 
-		BeginDrawing();
-		ClearBackground(BLACK);
+		BeginDrawing(); //start a drawing 
+		ClearBackground(BLACK); //this allows us to color the background
 
 		ball.Draw();
 		leftPaddle.Draw();
@@ -139,11 +139,11 @@ int main()
 			DrawText(winnerText, GetScreenWidth() / 2 - textWidth / 2, GetScreenHeight() / 2 - 30, 60, SKYBLUE);
 		}
 
-		DrawFPS(10, 10);
-		EndDrawing();
+		DrawFPS(350, 10); //shows FPS
+		EndDrawing(); //end the events and drawing
 	}
 
-	CloseWindow();
+	CloseWindow(); //this closes the window when done 
 
 	return 0;
 }
