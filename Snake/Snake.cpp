@@ -17,6 +17,8 @@ struct Paddle
 	float x, y;
 	float speed;
 	float width, height;
+	int score;
+	
 
 	Rectangle GetRect()
 	{
@@ -29,24 +31,27 @@ struct Paddle
 	}
 };
 
+
+
 int main()
 {
 	InitWindow(800, 600, "Pong"); //this creates the window
 	SetWindowState(FLAG_VSYNC_HINT); //flag to update as fsat as your local machine
 
-	Ball ball;
+	Ball ball; //ball info
 	ball.x = GetScreenWidth() / 2.0f;
 	ball.y = GetScreenHeight() / 2.0f;
 	ball.radius = 5;
 	ball.speedX = 250;
 	ball.speedY = 250;
 
-	Paddle leftPaddle;
-	leftPaddle.x = 50;
+	Paddle leftPaddle; //the paddle info
+	leftPaddle.x = 50; //where it is in the x and y axis
 	leftPaddle.y = GetScreenHeight() / 2;
 	leftPaddle.width = 10;
 	leftPaddle.height = 100;
-	leftPaddle.speed = 600;
+	leftPaddle.speed = 600; //speed of paddle
+
 
 	Paddle rightPaddle;
 	rightPaddle.x = GetScreenWidth() - 50;
@@ -56,6 +61,10 @@ int main()
 	rightPaddle.speed = 600;
 
 	const char* winnerText = nullptr;
+	const char* player1 = "Player One";
+	const char* player2 = "Player Two";
+	const char* playerScore1 = "0";
+	const char* playerScore2 = "0";
 
 	while (!WindowShouldClose()) // this is while we still have the window open 
 	{
@@ -72,6 +81,21 @@ int main()
 			ball.y = GetScreenHeight();
 			ball.speedY *= -1;
 		}
+
+		if (leftPaddle.y < 0)
+		{
+			leftPaddle.y = 0;
+		} 
+		if (leftPaddle.y < -1)
+		{
+			leftPaddle.y = -1;
+		}
+
+		if (rightPaddle.y < 0)
+		{
+			rightPaddle.y = 0;
+		}
+
 
 		if (IsKeyDown(KEY_W))
 		{
@@ -91,7 +115,7 @@ int main()
 			rightPaddle.y += rightPaddle.speed * GetFrameTime();
 		}
 
-		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, leftPaddle.GetRect()))
+		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, leftPaddle.GetRect())) //checks if the ball touches a paddle
 		{
 			if (ball.speedX < 0)
 			{
@@ -110,18 +134,18 @@ int main()
 
 		if (ball.x < 0)
 		{
-			winnerText = "Right Player Wins!";
+			winnerText = "Player Two Wins!";
 		}
 		if (ball.x > GetScreenWidth())
 		{
-			winnerText = "Left Player Wins!";
+			winnerText = "Player One Wins!";
 		}
 		if (winnerText && IsKeyPressed(KEY_SPACE))
 		{
 			ball.x = GetScreenWidth() / 2;
 			ball.y = GetScreenHeight() / 2;
-			ball.speedX = 300;
-			ball.speedY = 300;
+			ball.speedX = 250; //speed of ball
+			ball.speedY = 250;
 			winnerText = nullptr;
 		}
 
@@ -129,9 +153,16 @@ int main()
 		BeginDrawing(); //start a drawing 
 		ClearBackground(BLACK); //this allows us to color the background
 
-		ball.Draw();
+		ball.Draw(); //draw the objects
 		leftPaddle.Draw();
 		rightPaddle.Draw();
+		
+
+		DrawText(player2, 500, 10, 25, YELLOW); //position of player name
+		DrawText(player1, 150, 10, 25, YELLOW);
+
+		DrawText(playerScore2, 500, 35, 25, YELLOW);
+		DrawText(playerScore1, 150, 30, 25, YELLOW);
 
 		if (winnerText)
 		{
