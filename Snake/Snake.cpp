@@ -60,8 +60,8 @@ int main()
 	rightPaddle.height = 100;
 	rightPaddle.speed = 600;
 
-	const char* winnerText = nullptr;
-	const char* player1 = "Player One";
+	const char* winnerText = nullptr; //variable to announce winner
+	const char* player1 = "Player One"; //varibale to draw the player
 	const char* player2 = "Player Two";
 	const char* playerScore1 = "0";
 	const char* playerScore2 = "0";
@@ -74,7 +74,7 @@ int main()
 		if (ball.y < 0)
 		{
 			ball.y = 0;
-			ball.speedY *= -1;
+			ball.speedY *= -1; //this makes the ball go the other way when hitting top or bottom 
 		}
 		if (ball.y > GetScreenHeight())
 		{
@@ -82,8 +82,7 @@ int main()
 			ball.speedY *= -1;
 		}
 
-		if (leftPaddle.y < 0)
-		{
+		if (leftPaddle.y < 0) //this is how we get the paddle to stop at the top.... still working out the bottom section
 			leftPaddle.y = 0;
 		} 
 		if (leftPaddle.y < -1)
@@ -97,7 +96,7 @@ int main()
 		}
 
 
-		if (IsKeyDown(KEY_W))
+		if (IsKeyDown(KEY_W)) //this is how we call the paddles to move
 		{
 			leftPaddle.y -= leftPaddle.speed * GetFrameTime();
 		}
@@ -127,14 +126,14 @@ int main()
 		{
 			if (ball.speedX > 0)
 			{
-				ball.speedX *= -1.1f;
-				ball.speedY = (ball.y - rightPaddle.y) / (rightPaddle.height / 2) * -ball.speedX;
+				ball.speedX *= -1.1f; //redirectst the ball
+				ball.speedY = (ball.y - rightPaddle.y) / (rightPaddle.height / 2) * -ball.speedX; //this helps th ball not stay linear
 			}
 		}
 
 		if (ball.x < 0)
 		{
-			winnerText = "Player Two Wins!";
+			winnerText = "Player Two Wins!"; //conditional for winner of the match
 		}
 		if (ball.x > GetScreenWidth())
 		{
@@ -142,7 +141,7 @@ int main()
 		}
 		if (winnerText && IsKeyPressed(KEY_SPACE))
 		{
-			ball.x = GetScreenWidth() / 2;
+			ball.x = GetScreenWidth() / 2; //drew the ball
 			ball.y = GetScreenHeight() / 2;
 			ball.speedX = 250; //speed of ball
 			ball.speedY = 250;
